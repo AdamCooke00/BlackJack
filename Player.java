@@ -12,10 +12,12 @@ public class Player {
         this.coins = coins;
     }
 
+    // add coins to players total
     public void depositCoins(double deposit) {
         this.coins += deposit;
     }
 
+    // subtract coins from players total
     public void withdrawCoins(double withdrawAmount) {
         this.coins -= withdrawAmount;
     }
