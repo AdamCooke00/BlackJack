@@ -55,6 +55,13 @@ public class Game {
         dealerCards.add(currentDeck.withdrawCard());
     }
 
+    /**
+     * @return the currentDeck
+     */
+    public Deck getCurrentDeck() {
+        return currentDeck;
+    }
+
     // gives calling card array 2 cards
     public void getInitialCards(ArrayList<Card> currentCards) {
         currentCards.add(currentDeck.withdrawCard());
@@ -66,22 +73,26 @@ public class Game {
         currentCards.add(currentDeck.withdrawCard());
     }
 
+    public int sumHandValue(ArrayList<Card> currentCards) {
+        int cardValueSum = 0;
+        for (Card card : currentCards) {
+            cardValueSum += card.getValue();
+        }
+        return cardValueSum;
+    }
+
     // equates the totals of the players cards and the dealers cards and prints who
     // won
     public void didWin(ArrayList<Card> player, ArrayList<Card> dealer) {
-        int playerCardValueSum = 0;
-        int dealerCardValueSum = 0;
 
-        for (Card card : player) {
-            playerCardValueSum += card.getValue();
-        }
+        int playerCardValueSum = sumHandValue(player);
+        int dealerCardValueSum = sumHandValue(dealer);
+
         if (playerCardValueSum > 21) {
             System.out.println("Player Busted");
             return;
         }
-        for (Card card : dealer) {
-            dealerCardValueSum += card.getValue();
-        }
+
         if (dealerCardValueSum > 21) {
             System.out.println("Dealer Busted");
             playerWon();
