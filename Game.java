@@ -83,26 +83,25 @@ public class Game {
 
     // equates the totals of the players cards and the dealers cards and prints who
     // won
-    public void didWin(ArrayList<Card> player, ArrayList<Card> dealer) {
+    public String didWin(ArrayList<Card> player, ArrayList<Card> dealer) {
 
         int playerCardValueSum = sumHandValue(player);
         int dealerCardValueSum = sumHandValue(dealer);
 
         if (playerCardValueSum > 21) {
-            System.out.println("Player Busted");
-            return;
+            return ("Player Busted");
         }
 
         if (dealerCardValueSum > 21) {
-            System.out.println("Dealer Busted");
             playerWon();
+            return ("Dealer Busted");
         } else if (playerCardValueSum > dealerCardValueSum) {
-            System.out.println("Player Won");
             playerWon();
+            return ("Player Won");
         } else if (playerCardValueSum == dealerCardValueSum) {
-            System.out.println("Tie! Dealer Takes It");
+            return ("Tie! Dealer Takes It");
         } else {
-            System.out.println("Dealer Won");
+            return ("Dealer Won");
         }
 
     }
