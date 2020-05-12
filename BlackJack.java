@@ -6,11 +6,8 @@ import javafx.scene.*;
 import javafx.scene.image.*;
 import javafx.scene.text.*;
 import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import javafx.event.*;
 
 public class BlackJack extends Application {
 
