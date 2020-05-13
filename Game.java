@@ -75,10 +75,38 @@ public class Game {
 
     public int sumHandValue(ArrayList<Card> currentCards) {
         int cardValueSum = 0;
+        // initially set to be a bust
+        int cardValueSumWithAce = 22;
+        boolean firstOccuranceOfAce = true;
+        // iterates over each card in hand
         for (Card card : currentCards) {
+            // if an ace is in the hand and its the first occorance of an ace give value to
+            // aceSum and add 11
+            if (card.getValue() == 1 && firstOccuranceOfAce) {
+                cardValueSumWithAce = cardValueSum + 11;
+                firstOccuranceOfAce = false;
+            } else if (!firstOccuranceOfAce) {
+                // this loop happen once an ace has been seen and occurs on each subsequent
+                // iteration adding to the aceSum
+                cardValueSumWithAce += card.getValue();
+            }
+
             cardValueSum += card.getValue();
         }
-        return cardValueSum;
+
+        // check which sum is closer to 21 without going over, return that sum. if both
+        // are over return lowest
+
+        // if either are greater than 21, return the smallest one as the smallest one
+        // will be less than 21 or closer to it
+        if (cardValueSum > 21 || cardValueSumWithAce > 21) {
+            return cardValueSum < cardValueSumWithAce ? cardValueSum : cardValueSumWithAce;
+        } else if (cardValueSum == 21 || cardValueSumWithAce == 21) {
+            return 21;
+        } else {
+            // both are less than 21 and neither equals 21 return the greatest value
+            return cardValueSum > cardValueSumWithAce ? cardValueSum : cardValueSumWithAce;
+        }
     }
 
     // equates the totals of the players cards and the dealers cards and prints who

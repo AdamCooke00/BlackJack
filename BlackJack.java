@@ -62,6 +62,20 @@ public class BlackJack extends Application {
         playerCoins.setX(300);
         playerCoins.setY(780);
 
+        int initialPlayerHandValue = firstGame.sumHandValue(firstGame.getPlayerCards());
+
+        Text playerScoreText = new Text("Player Total: " + initialPlayerHandValue);
+        playerScoreText.setFont(new Font(30));
+        playerScoreText.setFill(Color.WHITESMOKE);
+        playerScoreText.setX(25);
+        playerScoreText.setY(580);
+
+        Text dealerScoreText = new Text("Dealer Total: ???");
+        dealerScoreText.setFont(new Font(30));
+        dealerScoreText.setFill(Color.WHITESMOKE);
+        dealerScoreText.setX(25);
+        dealerScoreText.setY(250);
+
         // display players first 2 cards
         Image cardBack = null;
         Image playerCardOne = null;
@@ -88,7 +102,7 @@ public class BlackJack extends Application {
         // set deck image
         ImageView cardBackImageView = new ImageView(cardBack);
         cardBackImageView.setX(100);
-        cardBackImageView.setY(300);
+        cardBackImageView.setY(350);
         cardBackImageView.setFitHeight(300);
         cardBackImageView.setFitWidth(100);
         cardBackImageView.setPreserveRatio(true);
@@ -122,7 +136,8 @@ public class BlackJack extends Application {
         dealerCardFaceUpImage.setPreserveRatio(true);
 
         root.getChildren().addAll(exitBtn, welcomeText, playerCoins, cardBackImageView, playerCardOneImage,
-                playerCardTwoImage, hitButton, standButton, dealerCardFaceDownImage, dealerCardFaceUpImage);
+                playerCardTwoImage, hitButton, standButton, dealerCardFaceDownImage, dealerCardFaceUpImage,
+                playerScoreText, dealerScoreText);
 
         // button logic
         exitBtn.setOnAction(e -> {
@@ -169,6 +184,7 @@ public class BlackJack extends Application {
 
             }
 
+            dealerScoreText.setText("Dealer Total: " + firstGame.sumHandValue(firstGame.getDealerCards()));
             playAgainButton.setVisible(true);
             hitButton.setVisible(false);
             standButton.setVisible(false);
@@ -179,6 +195,7 @@ public class BlackJack extends Application {
         hitButton.setOnAction(e -> {
             firstGame.hit(firstGame.getPlayerCards());
             Card newlyAddedCard = firstGame.getPlayerCards().get(firstGame.getPlayerCards().size() - 1);
+            playerScoreText.setText("Player Total: " + firstGame.sumHandValue(firstGame.getPlayerCards()));
             try {
                 Image addPlayerCard = new Image(
                         new FileInputStream("imgs/cardFronts/" + newlyAddedCard.getImagePath()));
@@ -211,6 +228,9 @@ public class BlackJack extends Application {
         primaryStage.setTitle("BlackJack Application by Adam Cooke");
         primaryStage.setScene(scene);
         primaryStage.show();
+        if (initialPlayerHandValue == 21) {
+            standButton.fire();
+        }
     }
 
     public void restart(Stage primaryStage, Player currentPlayer) {
