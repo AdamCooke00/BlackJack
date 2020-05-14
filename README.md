@@ -10,3 +10,5 @@ Hit gives the user another card.
 Tie goes to the dealer.
 
 User starts with 40 "coins".
+
+<img src="/imgs/sampleGameImage.png" width="500">
