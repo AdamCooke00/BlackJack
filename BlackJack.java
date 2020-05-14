@@ -14,8 +14,8 @@ public class BlackJack extends Application {
     public void playGame(Stage primaryStage, Player currentPlayer) {
         Group root = new Group();
         Button playAgainButton = new Button("Play Again");
-        playAgainButton.setLayoutX(1000);
-        playAgainButton.setLayoutY(400);
+        playAgainButton.setLayoutX(400);
+        playAgainButton.setLayoutY(700);
         playAgainButton.setMinSize(80, 40);
         playAgainButton.setVisible(false);
         root.getChildren().add(playAgainButton);
@@ -33,6 +33,7 @@ public class BlackJack extends Application {
         Button exitBtn = new Button("Exit Game");
         Button hitButton = new Button("Hit");
         Button standButton = new Button("Stand");
+        Button doubleDownButton = new Button("Double Down");
 
         // button locations & Size
         hitButton.setLayoutX(500);
@@ -42,6 +43,10 @@ public class BlackJack extends Application {
         standButton.setLayoutX(600);
         standButton.setLayoutY(700);
         standButton.setMinSize(80, 40);
+
+        doubleDownButton.setLayoutX(700);
+        doubleDownButton.setLayoutY(700);
+        doubleDownButton.setMinSize(80, 40);
 
         exitBtn.setLayoutX(20);
         exitBtn.setLayoutY(750);
@@ -75,6 +80,12 @@ public class BlackJack extends Application {
         dealerScoreText.setFill(Color.WHITESMOKE);
         dealerScoreText.setX(25);
         dealerScoreText.setY(250);
+
+        Text tablePotText = new Text("Table Pot: " + firstGame.getTotalGameBet());
+        tablePotText.setFont(new Font(30));
+        tablePotText.setFill(Color.FLORALWHITE);
+        tablePotText.setX(300);
+        tablePotText.setY(425);
 
         // display players first 2 cards
         Image cardBack = null;
@@ -137,7 +148,7 @@ public class BlackJack extends Application {
 
         root.getChildren().addAll(exitBtn, welcomeText, playerCoins, cardBackImageView, playerCardOneImage,
                 playerCardTwoImage, hitButton, standButton, dealerCardFaceDownImage, dealerCardFaceUpImage,
-                playerScoreText, dealerScoreText);
+                playerScoreText, dealerScoreText, doubleDownButton, tablePotText);
 
         // button logic
         exitBtn.setOnAction(e -> {
@@ -186,6 +197,7 @@ public class BlackJack extends Application {
 
             dealerScoreText.setText("Dealer Total: " + firstGame.sumHandValue(firstGame.getDealerCards()));
             playAgainButton.setVisible(true);
+            doubleDownButton.setVisible(false);
             hitButton.setVisible(false);
             standButton.setVisible(false);
             welcomeText.setText(firstGame.didWin(firstGame.getPlayerCards(), firstGame.getDealerCards()));
@@ -215,12 +227,27 @@ public class BlackJack extends Application {
                 welcomeText.setText("Player Busted");
                 playAgainButton.setVisible(true);
                 hitButton.setVisible(false);
+                doubleDownButton.setVisible(false);
                 standButton.setVisible(false);
             } else if (firstGame.sumHandValue(firstGame.getPlayerCards()) == 21) {
                 welcomeText.setText("User has BlackJack");
                 standButton.fire();
             }
 
+        });
+
+        doubleDownButton.setOnAction(e -> {
+            firstGame.doubleDown();
+            playerCoins.setText(currentPlayer.getName() + " has " + currentPlayer.getCoins() + " coins.");
+            tablePotText.setText("Table Pot: " + firstGame.getTotalGameBet());
+            hitButton.fire();
+            // this if statement is needed... in the hitButton.fire() it calls standButton
+            // if the hit results in 21. thus u dont
+            // want to call it again therefore it only calls if the hit results in a non 21
+            // sum. Sloppy Code but too late to fix it all...
+            if (firstGame.sumHandValue(firstGame.getPlayerCards()) != 21) {
+                standButton.fire();
+            }
         });
 
         Scene scene = new Scene(root, 1200, 800);
@@ -239,7 +266,7 @@ public class BlackJack extends Application {
 
     public void start(Stage primaryStage) throws Exception {
         Player currentPlayer = new Player();
-        currentPlayer.depositCoins(20);
+        currentPlayer.depositCoins(40);
         playGame(primaryStage, currentPlayer);
     }
 

@@ -35,6 +35,13 @@ public class Game {
         return dealerCards;
     }
 
+    /**
+     * @return the totalGameBet
+     */
+    public double getTotalGameBet() {
+        return totalGameBet;
+    }
+
     public void printCards(ArrayList<Card> currentCards) {
         for (Card card : currentCards) {
             System.out.println(card);
@@ -44,6 +51,7 @@ public class Game {
     // if player wins this function is to be called and double the totalGameBet is
     // added to their total coins
     public void playerWon() {
+        System.out.println("In playerWon() ... " + totalGameBet * 2);
         currentPlayer.depositCoins(2 * totalGameBet);
     }
 
