@@ -1,4 +1,9 @@
 # BlackJack
+
+REQUIRES JAVAFX (PACKAGE CONTAINED IN JDK 8) NOT INCLUDED IN VERSIONS ON JDK BEYOND 8
+
+RUN "BLACKJACK" FILE TO PLAY
+
 Blackjack Java Application
 
 Default game bet is set to 5 "coins".
